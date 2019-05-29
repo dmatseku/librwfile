@@ -31,7 +31,7 @@ void		list_add_end(t_list** lst, t_list* elem);
 
 char*		read_all_file(int fd);
 
-char**		read_many_files(int *fd, size_t count, char closefd);
+char**		read_many_files(int *fd, size_t count);
 
 t_list*		find(int fd, t_list* lst);
 

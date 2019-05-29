@@ -26,5 +26,6 @@ char*	read_all_file(int fd)
 		bzero(buff, BUFF_ALL);
 	}
 	FREE(buff);
+	close(fd);
 	return (res);
 }
