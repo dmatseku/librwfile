@@ -1,6 +1,6 @@
 #include <rwfile.h>
 
-void	list_add_end(t_list** lst, t_list* elem)
+void	list_add_end(t_list** const lst, t_list* const elem)
 {
 	t_list* tmp;
 

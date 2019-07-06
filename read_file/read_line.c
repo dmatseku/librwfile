@@ -1,7 +1,7 @@
 #include <rwfile.h>
 
 
-static size_t	str_len(const char* str, size_t i,size_t len)
+static size_t	str_len(char const * const str, const size_t i, const size_t len)
 {
 	size_t res;
 
@@ -12,7 +12,7 @@ static size_t	str_len(const char* str, size_t i,size_t len)
 	return (res);
 }
 
-static int	realoc_str(char** str, char* tmp, size_t size, size_t* size_all)
+static int	realoc_str(char** str, char* tmp, const size_t size, size_t* const size_all)
 {
 	char* prev;
 	size_t i;
@@ -33,7 +33,7 @@ static int	realoc_str(char** str, char* tmp, size_t size, size_t* size_all)
 	return (1);
 }
 
-static int	create_line(t_list* elem, char** str)
+static int	create_line(t_list* const elem, char** str)
 {
 	size_t	size;
 	size_t	size_all;
@@ -71,7 +71,7 @@ static int	create_line(t_list* elem, char** str)
 	}
 }
 
-int		read_line(int fd, char **str)
+int		read_line(const int fd, char** str)
 {
 	static t_list*	fds = 0;
 	t_list*			elem;
@@ -93,7 +93,7 @@ int		read_line(int fd, char **str)
 	}
 	if (res < 0)
 	{
-		FREE(*str);
+		FREE((void*)(*str));
 		*str = 0;
 		return (-1);
 	}

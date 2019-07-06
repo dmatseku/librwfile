@@ -7,7 +7,7 @@ include_directories(includes)
 
 set(HEADER rwfile.h)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Werror")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Werror -Ofast")
 
 add_library(rwfile
         read_file/read_all_file.c   read_file/read_many_files.c read_file/read_line.c

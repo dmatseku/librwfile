@@ -1,6 +1,6 @@
 #include <rwfile.h>
 
-char**		read_many_files(int *fd, size_t count)
+char**		read_many_files(int const * const fd, size_t count)
 {
 	size_t	i;
 	char**	res;

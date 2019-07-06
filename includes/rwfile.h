@@ -3,8 +3,8 @@
 #define RWFILE_H
 #define BUFF_ALL 270
 #define BUFF_LINE 270
-#define CHECK(x) if (!x) return (0)
-#define FREE(x) if (x) free(x)
+#define CHECK(x) if (!(x)) return (0)
+#define FREE(x) if ((x)) free(x)
 
 #include <unistd.h>
 #include <fcntl.h>
@@ -25,18 +25,18 @@ struct		s_list
 
 t_list		*list_create(int fd);
 
-void		list_remove(t_list** lst, t_list* elem);
+void		list_remove(t_list** const lst, t_list const * const elem);
 
-void		list_add_end(t_list** lst, t_list* elem);
+void		list_add_end(t_list** const lst, t_list* const elem);
 
-char*		read_all_file(int fd);
+char*		read_all_file(const int fd);
 
-char**		read_many_files(int *fd, size_t count);
+char**		read_many_files(int const * const fd, size_t count);
 
-t_list*		find(int fd, t_list* lst);
+t_list*		find(const int fd, t_list* lst);
 
-t_list*		add(int fd, t_list** lst);
+t_list*		add(const int fd, t_list** const lst);
 
-int			read_line(int fd, char **str);
+int			read_line(const int fd, char** str);
 
 #endif
