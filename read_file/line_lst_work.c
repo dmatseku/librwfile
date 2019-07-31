@@ -1,6 +1,6 @@
 #include <rwfile.h>
 
-t_list*		find(const int fd, t_list* lst)
+t_list*		find(const int fd, t_list *restrict lst)
 {
 	if (!lst)
 		return (0);
@@ -22,25 +22,26 @@ void		list_remove(t_list** const lst, t_list const * const elem)
 	if (tmp == elem)
 	{
 		*lst = tmp->next;
-		FREE(tmp->buffer);
+		free(tmp->buffer);
 		close(tmp->fd);
-		FREE(tmp);
+		free(tmp);
 		return ;
 	}
 	while (tmp->next != elem)
 		tmp = tmp->next;
 	tmp1 = tmp->next;
 	tmp->next = tmp1->next;
-	FREE(tmp1->buffer);
+	free(tmp1->buffer);
 	close(tmp1->fd);
-	FREE(tmp1);
+	free(tmp1);
 }
 
-t_list*		add(const int fd, t_list** const lst)
+t_list*		add(const int fd, t_list** const restrict lst)
 {
-	t_list*	const data = list_create(fd);
+	t_list*	const restrict data = list_create(fd);
 
-	CHECK(data);
+	if (!data)
+		return (0);
 	list_add_end(lst, data);
 	return (data);
 }

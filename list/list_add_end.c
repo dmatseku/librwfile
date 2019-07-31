@@ -1,15 +1,15 @@
 #include <rwfile.h>
 
-void	list_add_end(t_list** const lst, t_list* const elem)
+void	list_add_end(t_list* *const restrict lst, t_list* const restrict elem)
 {
 	t_list* tmp;
 
-	tmp = *lst;
 	if (!*lst)
 	{
 		*lst = elem;
 		return ;
 	}
+	tmp = *lst;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = elem;

@@ -10,22 +10,25 @@ char*	read_all_file(const int fd)
 
 	res = 0;
 	prev_count = 0;
-	CHECK(buff);
+	if (!buff)
+		return (0);
 	bzero(buff, BUFF_ALL + 1);
 	while ((read_res = read(fd, buff, BUFF_ALL)))
 	{
-		CHECK((read_res >= 0));
+		if (read_res < 0)
+			return (0);
 		tmp = res;
-		CHECK((res = (char*)malloc(sizeof(char) * (prev_count + read_res + 1))));
+		if (!(res = (char*)malloc(sizeof(char) * (prev_count + read_res + 1))))
+			return (0);
 		prev_count += read_res;
 		bzero(res, prev_count + 1);
 		if (tmp)
 			strcat(res, tmp);
 		strcat(res, buff);
-		FREE(tmp);
+		free(tmp);
 		bzero(buff, BUFF_ALL);
 	}
-	FREE(buff);
+	free(buff);
 	close(fd);
 	return (res);
 }

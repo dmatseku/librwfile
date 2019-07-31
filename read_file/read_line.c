@@ -1,7 +1,7 @@
 #include <rwfile.h>
 
 
-static size_t	str_len(char const * const str, const size_t i, const size_t len)
+static size_t	str_len(char const * const restrict str, const size_t i, const size_t len)
 {
 	size_t res;
 
@@ -12,21 +12,22 @@ static size_t	str_len(char const * const str, const size_t i, const size_t len)
 	return (res);
 }
 
-static int	realoc_str(char** str, char* tmp, const size_t size, size_t* const size_all)
+static int	realoc_str(char** const str, char* tmp, const size_t size, size_t* const size_all)
 {
 	char* prev;
 	size_t i;
 
 	prev = *str;
-	CHECK((*str = (char*)malloc(sizeof(char)
-			* (unsigned long)(*size_all + size + 1))));
+	if (!(*str = (char*)malloc(sizeof(char)
+			* (unsigned long)(*size_all + size + 1))))
+		return (0);
 	i = 0;
 	while (i < *size_all)
 	{
 		(*str)[i] = prev[i];
 		i++;
 	}
-	FREE(prev);
+	free(prev);
 	(*str)[i] = 0;
 	strncat(*str, tmp, size);
 	*size_all += size;
@@ -56,7 +57,8 @@ static int	create_line(t_list* const elem, char** str)
 		size = str_len(elem->buffer, elem->i, elem->len);
 		if (!size)
 			return (1);
-		CHECK(realoc_str(str, elem->buffer + elem->i, size, &size_all));
+		if (!realoc_str(str, elem->buffer + elem->i, size, &size_all))
+			return (0);
 		elem->i += size;
 		if (elem->i < elem->len)
 			return (1);
@@ -83,7 +85,8 @@ int		read_line(const int fd, char** str)
 	*str = 0;
 	if (!elem)
 	{
-		CHECK((elem = add(fd, &fds)));
+		if (!(elem = add(fd, &fds)))
+			return (0);
 	}
 	res = create_line(elem, str);
 	if (!(*str))
@@ -93,7 +96,7 @@ int		read_line(const int fd, char** str)
 	}
 	if (res < 0)
 	{
-		FREE((void*)(*str));
+		free((void*)(*str));
 		*str = 0;
 		return (-1);
 	}

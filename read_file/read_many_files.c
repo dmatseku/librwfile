@@ -1,16 +1,18 @@
 #include <rwfile.h>
 
-char**		read_many_files(int const * const fd, size_t count)
+char**		read_many_files(int const * const restrict fd, const size_t count)
 {
-	size_t	i;
-	char**	res;
-	char*	tmp;
+	size_t			i;
+	char* *const	res = (char**)malloc(sizeof(char*) * count);
+	char*			tmp;
 
 	i = 0;
-	CHECK((res = (char**)malloc(sizeof(char*) * count)));
+	if (!res)
+		return (0);
 	while (i < count)
 	{
-		CHECK((tmp = read_all_file(fd[i])));
+		if (!(tmp = read_all_file(fd[i])))
+			return (0);
 		res[i] = tmp;
 		i++;
 	}
